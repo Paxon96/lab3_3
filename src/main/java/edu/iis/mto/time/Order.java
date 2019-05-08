@@ -9,34 +9,22 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Order extends Clock {
+public class Order{
 	private static final int VALID_PERIOD_HOURS = 24;
 	private State orderState;
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 	private Instant subbmitionDate;
+	private Clock clock;
 
 	private final ZoneId ZONE = ZoneId.systemDefault();
 	private final Instant START = Instant.now();
 	private long count = 0;
 
-	public Order() {
-		orderState = State.CREATED;
+	public Order(Clock clock) {
+		this.orderState = State.CREATED;
+		this.clock = clock;
 	}
 
-	@Override
-	public ZoneId getZone() {
-		return ZONE;
-	}
-
-	@Override
-	public Clock withZone(ZoneId zone) {
-		return Clock.fixed(START, zone);
-	}
-
-	@Override
-	public Instant instant() {
-		return nextInstant();
-	}
 
 	private Instant nextInstant(){
 		count++;
