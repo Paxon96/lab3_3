@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,6 +27,14 @@ public class OrderTest {
     @Test(expected = OrderExpiredException.class)
     public void orderConfirmShouldThrowOrderExpiredExceptionTest() {
         order.submit();
+        currentTime = currentTime.plus(35, ChronoUnit.HOURS);
+        order.confirm();
+    }
+
+    @Test
+    public void orderConfirmShouldNotThrowOrderExpiredExceptionTest() {
+        order.submit();
+        currentTime = currentTime.plus(20, ChronoUnit.HOURS);
         order.confirm();
     }
 }
